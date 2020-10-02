@@ -7,6 +7,7 @@ type Thread struct {
 	Cost         int
 	Owner        Personteam
 	Stakeholders []Personteam
+	Iteration    string
 	ParentIDs    []int
 	ChildIDs     []int
 }

@@ -6,6 +6,8 @@ import "errors"
 var ErrBadQuery = errors.New("Bad query")
 
 // Threadquery specifies the query to use when looking up threads
+//
+// OwnerIDs and Iterations cannot contain more than 1 element
 type Threadquery struct {
 	OwnerIDs       []string
 	StakeholderIDs []string

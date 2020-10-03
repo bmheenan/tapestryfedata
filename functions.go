@@ -11,7 +11,7 @@ func GetPersonteam(email string) Personteam {
 }
 
 // GetIterationsFromUserID takes a user ID and returns which iterations are relevant to display
-func GetIterationsFromUserID(id int) []string {
+func GetIterationsFromUserID(email string) []string {
 	return []string{"Inbox", "2020 Oct", "Backlog"}
 }
 

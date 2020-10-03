@@ -1,7 +1,5 @@
 package tapestryfedata
 
-import "fmt"
-
 // GetPersonteam returns the info for a person or team, given their ID
 func GetPersonteam(email string) Personteam {
 	return Personteam{
@@ -21,11 +19,22 @@ func GetIterationsFromParentID(id int) []string {
 }
 
 // GetThreads returns the threads that match the given query. Returned threads will match any one of the values in all
-// of the arrays provided in the ThreadQuery. You cannot provide more than one owner or iteration
-//
-// Returns a wrapped ErrBadQuery error if
-func GetThreads(q Threadquery) ([]Thread, error) {
-	if len(q.StakeholderIDs) > 0 {
+// of the arrays provided in the ThreadQuery.
+func GetThreads(q Threadquery) []Thread {
+	if len(q.IDs) == 1 {
+		return []Thread{
+			{
+				ID:   1,
+				Name: "Example thread name",
+				Owner: Personteam{
+					Email: "a@example.com",
+					Name:  "Brandon",
+				},
+				Cost: 5,
+			},
+		}
+	}
+	if len(q.Stakeholders) > 0 {
 		return []Thread{
 			{
 				ID:   1,
@@ -42,7 +51,7 @@ func GetThreads(q Threadquery) ([]Thread, error) {
 				Name: "Big thread",
 				Cost: 20,
 			},
-		}, nil
+		}
 	}
 	if len(q.ParentIDs) > 0 {
 		return []Thread{
@@ -61,7 +70,7 @@ func GetThreads(q Threadquery) ([]Thread, error) {
 				Name: "Another child item",
 				Cost: 5,
 			},
-		}, nil
+		}
 	}
 	if len(q.ChildIDs) > 0 {
 		return []Thread{
@@ -70,7 +79,7 @@ func GetThreads(q Threadquery) ([]Thread, error) {
 				Name: "Parent",
 				Cost: 80,
 			},
-		}, nil
+		}
 	}
-	return nil, fmt.Errorf("Could not get threads: %w", ErrBadQuery)
+	return []Thread{}
 }

@@ -8,6 +8,4 @@ type Thread struct {
 	Owner        Personteam
 	Stakeholders []Personteam
 	Iteration    string
-	ParentIDs    []int
-	ChildIDs     []int
 }

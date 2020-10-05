@@ -1,12 +1,12 @@
 package tapestryfedata
 
-// GetPersonteam returns the info for a person or team, given their ID
+/* // GetPersonteam returns the info for a person or team, given their ID
 func GetPersonteam(email string) Personteam {
 	return Personteam{
 		Email: email,
 		Name:  "Brandon",
 	}
-}
+}*/
 
 // GetIterationsFromUserID takes a user ID and returns which iterations are relevant to display
 func GetIterationsFromUserID(email string) []string {

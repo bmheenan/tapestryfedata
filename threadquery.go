@@ -1,11 +1,11 @@
 package tapestryfedata
 
-// Threadquery specifies the query to use when looking up threads
+// Threadquery specifies the query to use when looking up threads. Mulitple set values are treated as AND
 type Threadquery struct {
-	IDs          []int
-	Owners       []string
-	Stakeholders []string
-	ParentIDs    []int
-	ChildIDs     []int
-	Iterations   []string
+	ID          int
+	Owner       string
+	Stakeholder string
+	ParentID    int
+	ChildID     int
+	Iteration   string
 }

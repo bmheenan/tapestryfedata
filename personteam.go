@@ -1,4 +1,4 @@
-package tapestryfedata
+package tapfed
 
 // Personteam is an entity that can have ownership of threads. It's either a person,
 // or a team of people--thus the name.

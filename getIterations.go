@@ -1,4 +1,4 @@
-package tapestryfedata
+package tapfed
 
 import (
 	"errors"

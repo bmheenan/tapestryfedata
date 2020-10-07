@@ -1,4 +1,4 @@
-package tapestryfedata
+package tapfed
 
 // Threadrow holds the summary info for a thread, needed to display it in a table with other threads
 type Threadrow struct {

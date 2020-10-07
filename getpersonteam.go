@@ -4,7 +4,7 @@ import "time"
 
 // GetPersonteam takes a person or team's email and returns all the info for them.
 func GetPersonteam(email string, cb func(Personteam, error)) {
-	time.Sleep(time.Second) // simulate network traffic
+	time.Sleep(300 * time.Millisecond) // simulate network traffic
 	if email == "brandon@ex.com" {
 		cb(Personteam{
 			Email: "brandon@ex.com",

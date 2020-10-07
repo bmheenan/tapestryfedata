@@ -4,7 +4,7 @@ import "time"
 
 // GetThreaddetail returns the details for the given thread
 func GetThreaddetail(id int, cb func(Threaddetail, error)) {
-	time.Sleep(time.Second) // simulate network traffic
+	time.Sleep(300 * time.Millisecond) // simulate network traffic
 	if id == 1 {
 		cb(Threaddetail{
 			ID:        1,

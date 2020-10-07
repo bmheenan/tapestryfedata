@@ -4,7 +4,7 @@ import "time"
 
 // GetThreadrows provides a list of threadrows for listing threads
 func GetThreadrows(tq Threadquery, cb func([]Threadrow, error)) {
-	time.Sleep(time.Second) // simulate network traffic
+	time.Sleep(200 * time.Millisecond) // simulate network traffic
 	if tq.Stakeholder == "frontend@ex.com" && tq.Iteration == "2020 Q4" {
 		cb([]Threadrow{
 			Threadrow{

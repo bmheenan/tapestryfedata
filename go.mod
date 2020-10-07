@@ -1,4 +1,4 @@
-module github.com/bmheenan/tapestryfedata
+module github.com/bmheenan/tapfed
 
 go 1.15
 

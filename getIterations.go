@@ -24,7 +24,13 @@ func GetIterationsForParentThread(id int, cb func([]string, error)) {
 	time.Sleep(300 * time.Millisecond) // simulate network traffic
 	if id == 1 {
 		cb([]string{"2020 Oct", "2020 Nov"}, nil)
+	} else if id == 2 || id == 3 || id == 8 || id == 9 || id == 11 || id == 12 {
+		cb([]string{"2020 Oct"}, nil)
+	} else if id == 4 {
+		cb([]string{"2020 Nov"}, nil)
+	} else if id == 7 || id == 10 {
+		cb([]string{"Inbox"}, nil)
 	} else {
-		cb([]string{}, nil)
+		cb([]string{"Backlog"}, nil)
 	}
 }

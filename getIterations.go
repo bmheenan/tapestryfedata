@@ -20,7 +20,7 @@ func GetIterationsForPersonteam(email string, cb func([]string, error)) {
 }
 
 // GetIterationsForParentThread returns all iterations that contain child threads of the given parent id
-func GetIterationsForParentThread(id int, cb func([]string, error)) {
+func GetIterationsForParentThread(id int64, cb func([]string, error)) {
 	time.Sleep(300 * time.Millisecond) // simulate network traffic
 	if id == 1 {
 		cb([]string{"2020 Oct", "2020 Nov"}, nil)

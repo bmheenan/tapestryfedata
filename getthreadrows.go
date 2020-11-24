@@ -1,51 +1,51 @@
 package tapfed
 
-import "time"
+import (
+	"time"
+
+	"github.com/bmheenan/taps"
+)
 
 // GetThreadrows provides a list of threadrows for listing threads
-func GetThreadrows(tq Threadquery, cb func([]Threadrow, error)) {
+func GetThreadrows(tq Threadquery, cb func([]taps.Threadrow, error)) {
 	time.Sleep(200 * time.Millisecond) // simulate network traffic
-	if tq.Stakeholder == "frontend@ex.com" && tq.Iteration == "2020 Q4" {
-		cb([]Threadrow{
-			Threadrow{
-				ID:             1,
-				Name:           "Big Q4 project",
-				Cost:           38,
-				Iteration:      "2020 Q4",
-				Owner:          Personteam{Email: "frontend@ex.com", Name: "Frontend"},
-				ChildrenLoaded: true,
-				Children: []Threadrow{
-					Threadrow{
-						ID:             2,
-						Name:           "Design big Q4 project",
-						Cost:           10,
-						Iteration:      "2020 Oct",
-						Owner:          Personteam{Email: "brandon@ex.com", Name: "Brandon"},
-						Children:       []Threadrow{},
-						ChildrenLoaded: false,
-					},
-					Threadrow{
-						ID:             3,
-						Name:           "Implement big Q4 project",
-						Cost:           20,
-						Iteration:      "2020 Oct",
-						Owner:          Personteam{Email: "steph@ex.com", Name: "Steph"},
-						Children:       []Threadrow{},
-						ChildrenLoaded: false,
-					},
-					Threadrow{
-						ID:             4,
-						Name:           "Test big Q4 project",
-						Cost:           8,
-						Iteration:      "2020 Nov",
-						Owner:          Personteam{Email: "brandon@ex.com", Name: "Brandon"},
-						Children:       []Threadrow{},
-						ChildrenLoaded: false,
-					},
+	/*if tq.Stakeholder == "frontend@ex.com" && tq.Iteration == "2020 Q4" {*/
+	cb([]taps.Threadrow{
+		taps.Threadrow{
+			ID:    1,
+			Name:  "Big Q4 project",
+			Cost:  38,
+			Iter:  "2020 Q4",
+			Owner: taps.Stakeholder{Email: "frontend@ex.com", Name: "Frontend"},
+			Children: []taps.Threadrow{
+				taps.Threadrow{
+					ID:       2,
+					Name:     "Design big Q4 project",
+					Cost:     10,
+					Iter:     "2020 Oct",
+					Owner:    taps.Stakeholder{Email: "brandon@ex.com", Name: "Brandon"},
+					Children: []taps.Threadrow{},
+				},
+				taps.Threadrow{
+					ID:       3,
+					Name:     "Implement big Q4 project",
+					Cost:     20,
+					Iter:     "2020 Oct",
+					Owner:    taps.Stakeholder{Email: "steph@ex.com", Name: "Steph"},
+					Children: []taps.Threadrow{},
+				},
+				taps.Threadrow{
+					ID:       4,
+					Name:     "Test big Q4 project",
+					Cost:     8,
+					Iter:     "2020 Nov",
+					Owner:    taps.Stakeholder{Email: "brandon@ex.com", Name: "Brandon"},
+					Children: []taps.Threadrow{},
 				},
 			},
-		}, nil)
-	} else if tq.Stakeholder == "frontend@ex.com" && tq.Iteration == "Backlog" {
+		},
+	}, nil)
+	/*} else if tq.Stakeholder == "frontend@ex.com" && tq.Iteration == "Backlog" {
 		cb([]Threadrow{
 			Threadrow{
 				ID:             5,
@@ -267,5 +267,5 @@ func GetThreadrows(tq Threadquery, cb func([]Threadrow, error)) {
 		}, nil)
 	} else {
 		cb([]Threadrow{}, nil)
-	}
+	}*/
 }

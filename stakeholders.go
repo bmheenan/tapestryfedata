@@ -11,6 +11,31 @@ import (
 	"github.com/bmheenan/taps"
 )
 
+// GetStk returns the stakeholder matching the given `email`, returned in the provided `callback` function
+func GetStk(email string, callback func(taps.Stakeholder, error)) {
+	res, err := http.Get(baseURL + "/stakeholders/" + email)
+	if err != nil {
+		callback(taps.Stakeholder{}, fmt.Errorf("Could not make API call: %v", err))
+		return
+	}
+	if res.StatusCode != http.StatusOK {
+		b, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			callback(taps.Stakeholder{}, fmt.Errorf("Error %d - Could not read response body", res.StatusCode))
+			return
+		}
+		callback(taps.Stakeholder{}, fmt.Errorf("Error %d - %s", res.StatusCode, string(b)))
+		return
+	}
+	b := taps.APIStksGetRes{}
+	err = json.NewDecoder(res.Body).Decode(&b)
+	if err != nil {
+		callback(taps.Stakeholder{}, errors.New("Response was not in the expected format"))
+		return
+	}
+	callback(b.Stk, nil)
+}
+
 // GetDomainStks returns all stakeholders in the given `domain` in their hierarchy. They're returned through the
 // provided `callback` function
 func GetDomainStks(domain string, callback func([]taps.StkInHier, error)) {

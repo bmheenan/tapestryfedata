@@ -79,7 +79,7 @@ func ClearDomain(domain string, callback func(error)) {
 		callback(fmt.Errorf("Could not convert domain to json: %v", err))
 		return
 	}
-	res, err := http.Post(baseURL+"/clearDomain", "application/json", bytes.NewBuffer(d))
+	res, err := http.Post(baseURL+"/cleardomain", "application/json", bytes.NewBuffer(d))
 	if err != nil {
 		callback(fmt.Errorf("Could not make API call: %v", err))
 		return

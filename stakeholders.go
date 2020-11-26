@@ -62,61 +62,37 @@ func GetDomainStks(domain string, callback func([]taps.StkInHier, error)) {
 	callback(b.Stks, nil)
 }
 
-// NewStk creates a new stakeholder with the given information. It returns any errors through the provided `callback`
-// function
-func NewStk(email, name, abbrev, colorF, colorB string, cadence taps.Cadence, pas []string, callback func(error)) {
-	d, err := json.Marshal(taps.APIStksPostReq{
-		Email:   email,
-		Name:    name,
-		Abbrev:  abbrev,
-		ColorF:  colorF,
-		ColorB:  colorB,
-		Cadence: cadence,
-		Pas:     pas,
-	})
-	if err != nil {
-		callback(fmt.Errorf("Could not convert request to json: %v", err))
-		return
-	}
-	res, err := http.Post(baseURL+"/stakeholders", "application/json", bytes.NewBuffer(d))
-	if err != nil {
-		callback(fmt.Errorf("Could not make API call: %v", err))
-		return
-	}
-	if res.StatusCode != http.StatusCreated {
-		b, err := ioutil.ReadAll(res.Body)
+// NewStk creates a new stakeholder with the given information. It returns immediately, with any errors or nil returning
+// through the provided `chErr` channel.
+func NewStk(email, name, abbrev, colorF, colorB string, cadence taps.Cadence, pas []string, chErr chan error) {
+	go func() {
+		d, err := json.Marshal(taps.APIStksPostReq{
+			Email:   email,
+			Name:    name,
+			Abbrev:  abbrev,
+			ColorF:  colorF,
+			ColorB:  colorB,
+			Cadence: cadence,
+			Pas:     pas,
+		})
 		if err != nil {
-			callback(fmt.Errorf("Error %d - Could not read response body", res.StatusCode))
+			chErr <- fmt.Errorf("Could not convert request to json: %v", err)
 			return
 		}
-		callback(fmt.Errorf("Error %d - %s", res.StatusCode, string(b)))
-		return
-	}
-	callback(nil)
-}
-
-// ClearDomain deletes all information within the given `domain`
-func ClearDomain(domain string, callback func(error)) {
-	d, err := json.Marshal(taps.APICleardomPostReq{
-		Domain: domain,
-	})
-	if err != nil {
-		callback(fmt.Errorf("Could not convert domain to json: %v", err))
-		return
-	}
-	res, err := http.Post(baseURL+"/cleardomain", "application/json", bytes.NewBuffer(d))
-	if err != nil {
-		callback(fmt.Errorf("Could not make API call: %v", err))
-		return
-	}
-	if res.StatusCode != http.StatusOK {
-		b, err := ioutil.ReadAll(res.Body)
+		res, err := http.Post(baseURL+"/stakeholders", "application/json", bytes.NewBuffer(d))
 		if err != nil {
-			callback(fmt.Errorf("Error %d - Could not read response body", res.StatusCode))
+			chErr <- fmt.Errorf("Could not make API call: %v", err)
 			return
 		}
-		callback(fmt.Errorf("Error %d - %s", res.StatusCode, string(b)))
-		return
-	}
-	callback(nil)
+		if res.StatusCode != http.StatusCreated {
+			b, err := ioutil.ReadAll(res.Body)
+			if err != nil {
+				chErr <- fmt.Errorf("Error %d - Could not read response body", res.StatusCode)
+				return
+			}
+			chErr <- fmt.Errorf("Error %d - %s", res.StatusCode, string(b))
+			return
+		}
+		chErr <- nil
+	}()
 }

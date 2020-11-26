@@ -2,6 +2,7 @@ package tapfed
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/bmheenan/taps"
 )
@@ -11,7 +12,9 @@ import (
 func GetItersForStk(stk string, chIters chan<- []string, chErr chan<- error) {
 	b := taps.APIItersGetRes{}
 	if ok := getDecodedRes(fmt.Sprintf("%s/iterations/?stk=%s", baseURL, stk), b, chErr); !ok {
+		log.Println("getDecodedRes: not ok")
 		return
 	}
+	log.Println("getDecodedRes: ok")
 	chIters <- b.Iters
 }

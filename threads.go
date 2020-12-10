@@ -67,9 +67,10 @@ func NewThread(name, owner, iter string, cost int, pas, chs []int64, chID chan<-
 // ThreadUpdates is a struct describing which threads to update and what to update for them. Each change will be made
 // to each member of `Ths`. Empty arrays and zero-values won't be modified. Within 'Ord`, only `Pa` or `Stk` can be set
 type ThreadUpdates struct {
-	Ths  []int64
-	Name string
-	Desc struct {
+	Ths   []int64
+	Name  string
+	State taps.State
+	Desc  struct {
 		New   bool
 		Value string
 	}
@@ -77,6 +78,8 @@ type ThreadUpdates struct {
 		New   bool
 		Value int
 	}
+	AddStks    []string
+	RmStks     []string
 	AddParents []int64
 	RmParents  []int64
 	Iter       string
@@ -101,10 +104,13 @@ func UpdateThreads(u *ThreadUpdates, chErr chan<- error) {
 			req.Desc.New = true
 			req.Desc.Value = u.Desc.Value
 		}
+		req.State = u.State
 		if u.Cost.New {
 			req.Cost.New = true
 			req.Cost.Value = u.Cost.Value
 		}
+		req.AddStks = u.AddStks
+		req.RmStks = u.RmStks
 		req.AddParents = u.AddParents
 		req.RmParents = u.RmParents
 		req.Iter = u.Iter

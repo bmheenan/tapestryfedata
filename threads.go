@@ -78,6 +78,7 @@ type ThreadUpdates struct {
 		New   bool
 		Value int
 	}
+	Owner      string
 	AddStks    []string
 	RmStks     []string
 	AddParents []int64
@@ -109,6 +110,7 @@ func UpdateThreads(u *ThreadUpdates, chErr chan<- error) {
 			req.Cost.New = true
 			req.Cost.Value = u.Cost.Value
 		}
+		req.Owner = u.Owner
 		req.AddStks = u.AddStks
 		req.RmStks = u.RmStks
 		req.AddParents = u.AddParents
